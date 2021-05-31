@@ -35,13 +35,15 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             $user = auth()->user();
-            $tokenResult = $user->createToken('Personal Access Token');
-            $token = $tokenResult->token;
+            if ($user->role === 'admin') {
+                $tokenResult = $user->createToken('Personal Access Token');
+                $token = $tokenResult->token;
 
-            if ($request->remember_me)
-                $token->expires_at = Carbon::now()->addWeeks(1);
+                if ($request->remember_me)
+                    $token->expires_at = Carbon::now()->addWeeks(1);
 
-            $token->save();
+                $token->save();
+            }
 
             return response()
                 ->json([
@@ -62,5 +64,23 @@ class AuthController extends Controller
                     'result' => 'Email atau Password salah!'
                 ]
             ], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        if (Auth::user()->role === 'admin') {
+            Auth::user()->ApiAccessToken()->delete();
+        }
+        
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()
+            ->json([
+                'success' => true,
+                'message' => 'Berhasil log out'
+            ]);
     }
 }

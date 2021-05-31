@@ -24,6 +24,7 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 });
 
 // Route::post('/login', [AuthenticatedSessionController::class, 'store'])
@@ -64,6 +65,6 @@ Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])
 Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store'])
     ->middleware('auth');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');
+// Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+//     ->middleware('auth')
+//     ->name('logout');
