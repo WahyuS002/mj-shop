@@ -18,7 +18,7 @@
                         </ul>
                     </div>
 
-                    <div class="widget-content">
+                    <div class="wi dget-content">
                         <div class="tabs tab-content">
                             <div id="content_1" class="tabcontent">
                                 <div id="revenueMonthly"></div>

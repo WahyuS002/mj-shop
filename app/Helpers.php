@@ -37,17 +37,12 @@ if (!function_exists('getAdminName')) {
     }
 }
 
-if ( ! function_exists('getProfilePicture'))
-{
-    function getProfilePicture()
+if (!function_exists('getUserProfilePicture')) {
+    function getUserProfilePicture($default = '')
     {
-        $findMedia = auth()->user()->media;
+        $user = auth()->user();
 
-        if (isset($findMedia[0])) {
-            return $findMedia[0]->getFullUrl();
-        }
-        else {
-            return asset('assets/img/user.png');
-        }
+        return isset($user->media[0]) ? $user->media[0]->getFullUrl()
+            :  (($default === '') ? asset('assets/img/90x90.jpg') : asset($default));
     }
 }

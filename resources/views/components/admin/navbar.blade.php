@@ -39,7 +39,7 @@
         <div class="dropdown-menu position-absolute e-animated e-fadeInUp" aria-labelledby="userProfileDropdown">
             <div class="user-profile-section">
                 <div class="media mx-auto">
-                    <img src="{{ getProfilePicture() }}" class="img-fluid mr-2" style="max-width: 90px; max-height: 90px" alt="{{ auth()->user()->name }}">
+                    <img src="{{ getUserProfilePicture() }}" class="img-fluid mr-2" style="max-width: 90px; max-height: 90px" alt="{{ auth()->user()->name }}">
                     <div class="media-body">
                         <h5>{{ getAdminName() }}</h5>
                         <p>Admin</p>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="dropdown-item">
-                <a href="user_profile.html">
+                <a href="{{ route('admin.profile') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-user">
