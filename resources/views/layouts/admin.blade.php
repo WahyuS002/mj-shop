@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/plugins.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('plugins/font-icons/fontawesome/css/all.min.css') }}">
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -57,6 +58,8 @@
 
     </div>
     <!-- END MAIN CONTAINER -->
+
+    @yield('custom_html')
 
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>

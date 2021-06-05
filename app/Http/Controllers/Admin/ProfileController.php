@@ -30,7 +30,7 @@ class ProfileController extends Controller
         $user = User::find(auth()->user()->id);
         $user->name = $request->name;
         $user->email = $request->email;
-        if ($request->password !== '')
+        if ($request->password)
             $user->password = bcrypt($request->password);
 
         $user->save();
