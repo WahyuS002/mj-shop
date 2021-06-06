@@ -68,10 +68,11 @@
     <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script>
+        const passportAccessToken = localStorage.getItem('passportAccessToken');
+
         $(document).ready(function() {
             App.init();
             $('[data-toggle="tooltip"]').tooltip();
-            const passportAccessToken = localStorage.getItem('passportAccessToken');
 
             $(document).on('click', '.user-profile-dropdown .dropdown-menu', function (e) {
                 e.stopPropagation();

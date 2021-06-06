@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
@@ -37,6 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' 
 
     Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
         Route::resource('brands', BrandController::class)->except(['create', 'edit']);
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
     });
 });
 

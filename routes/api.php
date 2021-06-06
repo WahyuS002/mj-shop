@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
-        
+        Route::apiResource('categories', CategoryController::class);
     });
 });
