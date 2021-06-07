@@ -12,4 +12,9 @@ class Category extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     public $timestamps = FALSE;
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

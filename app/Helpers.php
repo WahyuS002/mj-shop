@@ -62,8 +62,7 @@ if (!function_exists('getSiteLogo')) {
             } else {
                 return asset('assets/img/90x90.jpg');
             }
-        }
-        else {
+        } else {
             return getSiteIcon();
         }
     }
@@ -338,5 +337,31 @@ if (!function_exists('__displayAria')) {
         }
 
         return 'false';
+    }
+}
+
+if (!function_exists('displayPrice')) {
+    function displayPrice($price = 0)
+    {
+        return number_format($price, 2, ',', '.');
+    }
+}
+
+if (!function_exists('in_array_r')) {
+    function in_array_r($elem, $array, $field = '')
+    {
+        $top = sizeof($array) - 1;
+        $bottom = 0;
+        while ($bottom <= $top) {
+            if ($array[$bottom][$field] == $elem)
+                return true;
+            else
+            if (is_array($array[$bottom][$field]))
+                if (in_array_r($elem, ($array[$bottom][$field])))
+                    return true;
+
+            $bottom++;
+        }
+        return false;
     }
 }

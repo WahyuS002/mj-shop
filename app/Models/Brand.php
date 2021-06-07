@@ -12,4 +12,10 @@ class Brand extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     public $timestamps = FALSE;
+    public $fillable = ['name'];
+
+    public function productBrand()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
