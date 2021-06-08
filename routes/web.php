@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProductController as ControllersProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +22,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [ControllersProductController::class, 'home'])->name('home');
+Route::get('/product/{product}/{slug}', [ControllersProductController::class, 'product'])->name('product');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::group(['prefix' => 'shop', 'as' => 'shop.'], function () {
+    Route::get('/', [ControllersProductController::class, 'shop'])->name('browse');
+});
+
+Route::resource('cart', CartController::class)->only(['index', 'store', 'update']);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -37,11 +41,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 
-    Route::resource('products', ProductController::class);
     Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
         Route::resource('brands', BrandController::class)->except(['create', 'edit']);
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
     });
+    Route::resource('products', ProductController::class);
 });
 
 require __DIR__ . '/auth.php';

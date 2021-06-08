@@ -213,16 +213,16 @@
                 {
                     "data": function(data, type, row) {
                         return `<div class="text-right">
-                                                                                                                        <a href="#" class="btn btn-sm btn-info btn-view" data-id="${data.id}">
-                                                                                                                            <i class="fa fa-eye"></i>
-                                                                                                                        </a>
-                                                                                                                        <a href="#" class="btn btn-sm btn-warning btn-edit" data-id="${data.id}">
-                                                                                                                            <i class="fa fa-edit"></i>
-                                                                                                                        </a>
-                                                                                                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="${data.id}">
-                                                                                                                            <i class="fa fa-trash"></i>
-                                                                                                                        </a>
-                                                                                                                    </div>`;
+                                                                                                                            <a href="#" class="btn btn-sm btn-info btn-view" data-id="${data.id}">
+                                                                                                                                <i class="fa fa-eye"></i>
+                                                                                                                            </a>
+                                                                                                                            <a href="#" class="btn btn-sm btn-warning btn-edit" data-id="${data.id}">
+                                                                                                                                <i class="fa fa-edit"></i>
+                                                                                                                            </a>
+                                                                                                                            <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="${data.id}">
+                                                                                                                                <i class="fa fa-trash"></i>
+                                                                                                                            </a>
+                                                                                                                        </div>`;
                     }
                 }
             ],

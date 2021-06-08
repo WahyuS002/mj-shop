@@ -37,7 +37,7 @@
         @if (count($products) > 0)
             <div class="row">
                 @foreach ($products as $product)
-                    <div class="col-md-3 col-12 mb-1">
+                    <div class="col-md-4 col-12 mb-3">
                         <div class="card component-card_9">
                             @isset($product->media[0])
                                 <img src="{{ $product->media[0]->getFullUrl() }}" class="card-img-top" alt="widget-card-2">

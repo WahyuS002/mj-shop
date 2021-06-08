@@ -341,8 +341,11 @@ if (!function_exists('__displayAria')) {
 }
 
 if (!function_exists('displayPrice')) {
-    function displayPrice($price = 0)
+    function displayPrice($price = 0, $clearPrice = false)
     {
+        if ($clearPrice == true) {
+            $price = str_replace(',', '', $price);
+        }
         return number_format($price, 2, ',', '.');
     }
 }
@@ -363,5 +366,17 @@ if (!function_exists('in_array_r')) {
             $bottom++;
         }
         return false;
+    }
+}
+
+if ( ! function_exists('splitOptions'))
+{
+    function splitOptions($options = '') {
+        $split = explode('|', $options);
+        if (is_array($split) && count($split) > 0) {
+            return $split;
+        }
+
+        return [];
     }
 }
