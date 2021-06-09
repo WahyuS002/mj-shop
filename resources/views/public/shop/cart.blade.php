@@ -104,7 +104,7 @@
                             <ul>
                                 <li>Total <span>Rp {{ displayPrice($total, true) }}</span></li>
                             </ul>
-                            <a href="{{ route('checkout.create') }}" class="primary-btn">Checkout</a>
+                            <a href="" class="primary-btn">Checkout</a>
                         </div>
                     </div>
                 </div>

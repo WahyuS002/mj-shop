@@ -31,10 +31,10 @@
                 <div class="header__right">
                     <div class="header__right__auth">
                         @if (auth()->check())
-                        <a href="#">Akun Saya</a>
+                        <a href="{{ route('dashboard') }}">Akun Saya</a>
                         @else
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
+                            <a href="{{  r }}oute('login') }}">Login</a>
+                            <a href="{{  r }}oute('register') }}">Register</a>
                         @endif
                     </div>
                     <ul class="header__right__widget">

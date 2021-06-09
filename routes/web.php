@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -8,7 +9,9 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController as ControllersDashboardController;
 use App\Http\Controllers\ProductController as ControllersProductController;
+use App\Http\Controllers\ProfileController as ControllersProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +33,13 @@ Route::group(['prefix' => 'shop', 'as' => 'shop.'], function () {
 });
 
 Route::resource('cart', CartController::class)->only(['index', 'store', 'update']);
+
+Route::group(['middleware' => ['auth', 'role:customer']], function () {
+    Route::get('dashboard', [ControllersDashboardController::class, 'index'])->name('dashboard');
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::resource('address', AddressController::class);
+    });
+});
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
