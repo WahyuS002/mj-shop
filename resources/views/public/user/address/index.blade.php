@@ -21,6 +21,8 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8">
                     <div class="blog__details__content">
+                        <div></div>
+                        <img src="img/blog/details/blog-details.jpg" alt="">
                         <div class="blog__details__item">
                             <div class="blog__details__item__title">
                                 <h4>Alamat Saya</h4>
@@ -69,4 +71,3 @@
         </div>
     </section>
 @endsection
-

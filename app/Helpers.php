@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -370,9 +371,9 @@ if (!function_exists('in_array_r')) {
     }
 }
 
-if ( ! function_exists('splitOptions'))
-{
-    function splitOptions($options = '') {
+if (!function_exists('splitOptions')) {
+    function splitOptions($options = '')
+    {
         $split = explode('|', $options);
         if (is_array($split) && count($split) > 0) {
             return $split;
@@ -382,9 +383,9 @@ if ( ! function_exists('splitOptions'))
     }
 }
 
-if ( ! function_exists('generateOrderNumber'))
-{
-    function generateOrderNumber() {
+if (!function_exists('generateOrderNumber')) {
+    function generateOrderNumber()
+    {
         $time = time();
         //3 RANDOM STRING_USER ID_3 LAST TIME
 
@@ -396,10 +397,16 @@ if ( ! function_exists('generateOrderNumber'))
     }
 }
 
-if ( ! function_exists('clearPrice'))
-{
+if (!function_exists('clearPrice')) {
     function clearPrice($price)
     {
         return str_replace(',', '', $price);
+    }
+}
+
+if (!function_exists('getConstants')) {
+    function getConstants()
+    {
+        return new Constants;
     }
 }

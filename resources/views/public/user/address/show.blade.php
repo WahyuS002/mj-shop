@@ -17,13 +17,14 @@
         </div>
     </div>
 
-    
+
 
     <section class="blog-details spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-8">
                     <div class="blog__details__content">
+                        <img src="" alt="">
                         <div class="blog__details__item">
                             <div class="blog__details__item__title">
                                 <h4>

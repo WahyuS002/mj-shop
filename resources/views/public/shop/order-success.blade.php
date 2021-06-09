@@ -30,7 +30,7 @@
                 </p>
 
                 <div class="cart__btn">
-                    <a href="">Lihat Order</a>
+                    <a href="{{ route('orders.show', session()->get('orderId')) }}">Lihat Order</a>
                 </div>
             </div>
         </div>

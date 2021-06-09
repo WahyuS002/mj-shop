@@ -61,12 +61,12 @@
                                 <h4>Belanja</h4>
                             </div>
                             <ul>
-                                <li><a href="#">Semua Pesanan <span>(0)</span></a></li>
-                                <li><a href="#">Belum Dibayar <span>(0)</span></a></li>
-                                <li><a href="#">Sedang Diproses <span>(0)</span></a></li>
-                                <li><a href="#">Dalam Pengiriman <span>(0)</span></a></li>
-                                <li><a href="#">Selesai <span>(0)</span></a></li>
-                                <li><a href="#">Dibatalkan <span>(0)</span></a></li>
+                                <li><a href="{{ route('orders.index') }}">Semua Pesanan <span>({{ $countOrders['all'] }})</span></a></li>
+                                <li><a href="{{ route('orders.status', 'unpaid') }}">Belum Dibayar <span>({{ $countOrders['unpaid'] }})</span></a></li>
+                                <li><a href="{{ route('orders.status', 'on-process') }}">Sedang Diproses <span>({{ $countOrders['on_process'] }})</span></a></li>
+                                <li><a href="{{ route('orders.status', 'on-delivery') }}">Dalam Pengiriman <span>({{ $countOrders['on_delivery'] }})</span></a></li>
+                                <li><a href="{{ route('orders.status', 'finish') }}">Selesai <span>({{ $countOrders['finished'] }})</span></a></li>
+                                <li><a href="{{ route('orders.status', 'cancelled') }}">Dibatalkan <span>({{ $countOrders['cancelled'] }})</span></a></li>
                             </ul>
                         </div>
                     </div>

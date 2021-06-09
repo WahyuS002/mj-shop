@@ -48,4 +48,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(OAuthAccessToken::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

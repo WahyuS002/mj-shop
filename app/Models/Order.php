@@ -12,7 +12,7 @@ class Order extends Model
 
     public function status()
     {
-        return $this->hasOne(Order_status::class);
+        return $this->hasOne(Order_status::class, 'id', 'status_id');
     }
 
     public function items()

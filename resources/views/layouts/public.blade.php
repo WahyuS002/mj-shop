@@ -30,6 +30,9 @@
         .text-success {
             color: #198754 !important;
         }
+        .text-center {
+            text-align: center
+        }
 
         .mt-1 {
             margin-top: 0.25rem !important;
@@ -49,6 +52,20 @@
 
         .mt-5 {
             margin-top: 3rem !important;
+        }
+
+        .alert {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
         }
 
     </style>
