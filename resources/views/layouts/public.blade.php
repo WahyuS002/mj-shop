@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>@yield('title')</title>
+    <title>@yield('title') | {{ getSiteName() }}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cookie&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap"
@@ -25,6 +25,33 @@
     <link href="{{ asset('assets/css/components/custom-sweetalert.css') }}" rel="stylesheet">
 
     <link rel="icon" href="{{ getSiteIcon() }}">
+
+    <style>
+        .text-success {
+            color: #198754 !important;
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem !important;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem !important;
+        }
+
+        .mt-3 {
+            margin-top: 1rem !important;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+    </style>
 
     @yield('custom_head')
 </head>

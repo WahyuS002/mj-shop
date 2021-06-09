@@ -94,11 +94,6 @@
                                 @endisset
                                 >
                                 <div class="label {{ ($loop->iteration % 2 == 0) ? 'new' : 'sale' }}">{{ $product->brand->name }}</div>
-                                <ul class="product__hover">
-                                    <li><a href="{{ $product->media[0]->getFullUrl() }}"
-                                            class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#" class="btn-add-to-cart" data-product-id="{{ $product->id }}"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
                             </div>
                             <div class="product__item__text">
                                 <h6><a

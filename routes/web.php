@@ -39,6 +39,10 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::resource('address', AddressController::class);
     });
+
+    Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {

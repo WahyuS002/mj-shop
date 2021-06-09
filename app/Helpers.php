@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Setting;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 if (!function_exists('createAcronym')) {
@@ -378,5 +379,27 @@ if ( ! function_exists('splitOptions'))
         }
 
         return [];
+    }
+}
+
+if ( ! function_exists('generateOrderNumber'))
+{
+    function generateOrderNumber() {
+        $time = time();
+        //3 RANDOM STRING_USER ID_3 LAST TIME
+
+        $str = strtoupper(Str::random(4));
+        $time = substr($time, -3);
+        $userId = auth()->user()->id;
+
+        return $str . $time . $userId;
+    }
+}
+
+if ( ! function_exists('clearPrice'))
+{
+    function clearPrice($price)
+    {
+        return str_replace(',', '', $price);
     }
 }

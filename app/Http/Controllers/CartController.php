@@ -41,7 +41,7 @@ class CartController extends Controller
 
         $product = Product::findOrFail($product_id);
 
-        Cart::add($id, $product->name, $qty, ($product->price - $product->discount));
+        Cart::add($id, $product->name, $qty, ($product->price - $product->discount), ['product_id' => $product_id]);
 
         return redirect()
             ->to(route('cart.index'));

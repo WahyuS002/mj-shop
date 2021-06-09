@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         // $this->call(DefaultUserSeeder::class);
         // $this->call(DefaultSettingSeeder::class);
+        // $this->call(OrderStatusSeeder::class);
     }
 }
