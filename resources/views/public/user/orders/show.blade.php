@@ -69,8 +69,11 @@
                                 @if ($order->status_id == getConstants()::ORDER_STATUS_UNPAID)
                                     <li>
                                         <div class="cart__btn">
-                                            <a href="">Bayar Order</a>
+                                            <a href="{{ route('payments.paypal.create', $order->id) }}">Bayar dengan
+                                                PayPal ($
+                                                {{ number_format($order->total_price / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
                                         </div>
+
                                     </li>
                                 @endif
                             </ul>

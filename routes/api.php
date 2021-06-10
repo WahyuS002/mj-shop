@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api.'], function () {
     Route::apiResource('cart', CartController::class);
-    
+
     Route::group(['middleware' => ['auth:api'], 'prefix' => 'products', 'as' => 'products.'], function () {
         Route::apiResource('categories', CategoryController::class);
     });

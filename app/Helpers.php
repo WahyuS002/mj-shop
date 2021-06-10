@@ -400,6 +400,7 @@ if (!function_exists('generateOrderNumber')) {
 if (!function_exists('clearPrice')) {
     function clearPrice($price)
     {
+
         return str_replace(',', '', $price);
     }
 }
@@ -408,5 +409,19 @@ if (!function_exists('getConstants')) {
     function getConstants()
     {
         return new Constants;
+    }
+}
+
+if (!function_exists('generatePaymentNumber')) {
+    function generatePaymentNumber()
+    {
+        $time = time();
+        //3 RANDOM STRING_USER ID_3 LAST TIME
+
+        $str = strtoupper(Str::random(2));
+        $time = substr($time, -2);
+        $userId = auth()->user()->id;
+
+        return $str . $time . $userId;
     }
 }

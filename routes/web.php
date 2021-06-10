@@ -11,6 +11,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController as ControllersDashboardController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Payments\PaymentController;
+use App\Http\Controllers\Payments\PaypalController;
 use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\ProfileController as ControllersProfileController;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +52,16 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    Route::group(['prefix' => 'payments', 'as' => 'payments.'], function () {
+        Route::group(['prefix' => 'paypal', 'as' => 'paypal.'], function () {
+            Route::get('/callback', [PaypalController::class, 'callback'])->name('callback');
+            Route::get('/{order}', [PaypalController::class, 'create'])->name('create');
+        });
+
+        Route::get('/success', [PaymentController::class, 'success'])->name('success');
+    });
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {

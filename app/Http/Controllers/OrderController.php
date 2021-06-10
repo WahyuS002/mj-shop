@@ -30,8 +30,6 @@ class OrderController extends Controller
             abort(404);
         }
 
-        $order = $order->with('items.product')->first();
-
         return view('public.user.orders.show', compact('order'));
     }
 

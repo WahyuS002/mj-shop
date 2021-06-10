@@ -33,8 +33,8 @@
                         @if (auth()->check())
                         <a href="{{ route('dashboard') }}">Akun Saya</a>
                         @else
-                            <a href="{{  r }}oute('login') }}">Login</a>
-                            <a href="{{  r }}oute('register') }}">Register</a>
+                            <a href="{{ route('login') }}">Login</a>
+                            <a href="{{ route('register') }}">Register</a>
                         @endif
                     </div>
                     <ul class="header__right__widget">

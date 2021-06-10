@@ -30,6 +30,7 @@
         .text-success {
             color: #198754 !important;
         }
+
         .text-center {
             text-align: center
         }
@@ -52,6 +53,26 @@
 
         .mt-5 {
             margin-top: 3rem !important;
+        }
+
+        .mb-1 {
+            margin-bottom: 0.25rem !important;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem !important;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .mb-5 {
+            margin-bottom: 3rem !important;
         }
 
         .alert {
@@ -197,6 +218,18 @@
                 title: 'Berhasil!',
                 text: '{{ session()->get('success') }}',
                 type: 'success',
+                padding: '2em'
+            });
+
+        </script>
+    @endif
+
+    @if (session()->has('error'))
+        <script>
+            swal({
+                title: 'Upps...!',
+                text: '{{ session()->get('error') }}',
+                type: 'error',
                 padding: '2em'
             });
 
