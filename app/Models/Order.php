@@ -39,4 +39,9 @@ class Order extends Model
     {
         return $this->hasOne(Order_cancellation::class);
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }

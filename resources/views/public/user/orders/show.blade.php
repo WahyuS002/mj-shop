@@ -128,6 +128,33 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if ($order->status_id == getConstants()::ORDER_STATUS_UNPAID)
+                            <div class="blog__sidebar__item">
+                                <div class="section-title">
+                                    <h4>Pembayaran</h4>
+                                </div>
+                                <p>Lakukan pembayaran ke salah satu rekening berikut.</p>
+                                <div class="table">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Bank</th>
+                                            <th>Atas Nama</th>
+                                            <th>No. Rekening</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($banks as $bank)
+                                                <tr>
+                                                    <td>{{ $bank->bank_name }}</td>
+                                                    <td>{{ $bank->owner_name }}</td>
+                                                    <td>{{ $bank->account_number }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -143,6 +170,7 @@
                                 <li>Total: <u>Rp {{ displayPrice($order->shipment_cost + $order->total_price) }}</u></li>
                             </ul>
                         </div>
+
                         <div class="blog__sidebar__item">
                             <div class="section-title">
                                 <h4>Tindakan</h4>
@@ -154,8 +182,12 @@
                                             <a href="{{ route('payments.paypal.create', $order->id) }}">Bayar dengan
                                                 PayPal ($
                                                 {{ number_format(($order->total_price + $order->shipment_cost) / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
+
+                                            <a href="{{ route('payments.create') }}" class="mt-2">Konfirmasi
+                                                Pembayaran</a>
                                         </div>
                                     </li>
+
                                     <li>
                                         <div class="cart__btn">
                                             <a href="#" class="btn-cancel-order">Batalkan Order</a>
@@ -171,6 +203,14 @@
                                         Alasan:
                                         {{ $order->cancellations->reason }}
                                     </li>
+                                @endif
+                                @if ($order->status_id == getConstants()::ORDER_STATUS_WAITING_FOR_CONFIRMATION)
+                                <li>
+                                    <p>Order ini sudah dibayar, tetapi masih menunggu konfirmasi admin.</p>
+                                    <div class="cart__btn">
+                                        <a href="{{ route('payments.show', $order->payment->id) }}">Lihat Pembayaran</a>
+                                    </div>
+                                </li>
                                 @endif
                             </ul>
                         </div>

@@ -59,13 +59,14 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
+    Route::resource('payments', PaymentController::class)->except(['edit', 'update', 'destroy']);
     Route::group(['prefix' => 'payments', 'as' => 'payments.'], function () {
         Route::group(['prefix' => 'paypal', 'as' => 'paypal.'], function () {
             Route::get('/callback', [PaypalController::class, 'callback'])->name('callback');
             Route::get('/{order}', [PaypalController::class, 'create'])->name('create');
         });
 
-        Route::get('/success', [PaymentController::class, 'success'])->name('success');
+        Route::get('/pay/success', [PaymentController::class, 'success'])->name('success');
     });
 });
 

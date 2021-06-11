@@ -37,7 +37,7 @@
 
                             <div class="cart__btn">
                                 <a href="{{ route('orders.show', $order->id) }}">Lihat Order</a>
-                                <a href="">Lihat Pembayaran</a>
+                                <a href="{{ route('payments.show', $payment->id) }}">Lihat Pembayaran</a>
                             </div>
                         </div>
                     </div>

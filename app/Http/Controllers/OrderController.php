@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants;
+use App\Models\Bank;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,9 @@ class OrderController extends Controller
             abort(404);
         }
 
-        return view('public.user.orders.show', compact('order'));
+        $banks = Bank::all();
+
+        return view('public.user.orders.show', compact('banks', 'order'));
     }
 
     public function status($status = '')

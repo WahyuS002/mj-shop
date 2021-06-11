@@ -69,6 +69,16 @@
                                 <li><a href="{{ route('orders.status', 'cancelled') }}">Dibatalkan <span>({{ $countOrders['cancelled'] }})</span></a></li>
                             </ul>
                         </div>
+
+                        <div class="blog__sidebar__item">
+                            <div class="section-title">
+                                <h4>Pembayaran</h4>
+                            </div>
+                            <ul>
+                                <li><a href="{{ route('payments.index') }}">Pembayaran</a></li>
+                                <li><a href="{{ route('payments.create') }}">Konfirmasi Pembayaran</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

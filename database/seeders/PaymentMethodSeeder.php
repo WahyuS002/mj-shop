@@ -15,7 +15,8 @@ class PaymentMethodSeeder extends Seeder
     public function run()
     {
         DB::table('payment_methods')->insert([
-            ['key' => 'paypal', 'name' => 'PayPal']
+            ['key' => 'paypal', 'name' => 'PayPal'],
+            ['key' => 'bank', 'name' => 'Bank']
         ]);
     }
 }

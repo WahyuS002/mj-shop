@@ -121,6 +121,16 @@
                     </div>
                 </div>
 
+                @if ($order->status_id == getConstants()::ORDER_STATUS_ON_PROCESS || $order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY || $order->status_id == getConstants()::ORDER_STATUS_FINISHED)
+                    <div class="widget-content widget-content-area mt-3">
+                        <h5 class="display-5">Pembayaran</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-condensed">
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="widget-content widget-content-area mt-3">
                     <h5 class="display-5 mb-3">Tindakan</h5>
 
@@ -129,7 +139,7 @@
                     @endif
 
                     @if ($order->status_id == getConstants()::ORDER_STATUS_CANCELLED)
-                    <div class="alert alert-info">Order dibatalkan</div>
+                        <div class="alert alert-info">Order dibatalkan</div>
                     @endif
                 </div>
             </div>
