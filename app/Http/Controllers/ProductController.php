@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function home()
     {
         $categories = Category::orderBy('name', 'ASC')->get();
-        $products = Product::all();
+        $products = Product::with(['media', 'brand', 'categories'])->get();
 
         return view('public.home', compact('categories', 'products'));
     }

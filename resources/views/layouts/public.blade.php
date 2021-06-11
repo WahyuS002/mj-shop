@@ -239,6 +239,33 @@
 
         </script>
     @endif
+
+    <script>
+        const logoutLink = document.querySelector('.logout-link');
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            logoutLink.innerHTML = 'Logout...';
+            fetch('{{ route('auth.logout') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    logoutLink.innerHTML = 'Berhasil!';
+
+                    setTimeout(function () {
+                        window.location = '{{ route('login') }}';
+                    }, 2000);
+                })
+                .catch(errors => {
+                    console.log(errors);
+                })
+        })
+
+    </script>
 </body>
 
 </html>

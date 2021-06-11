@@ -40,6 +40,10 @@ Route::resource('cart', CartController::class)->only(['index', 'store', 'update'
 Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::get('dashboard', [ControllersDashboardController::class, 'index'])->name('dashboard');
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('/', [ControllersProfileController::class, 'index'])->name('index');
+        Route::get('/edit', [ControllersProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [ControllersProfileController::class, 'update'])->name('update');
+
         Route::resource('address', AddressController::class);
     });
 

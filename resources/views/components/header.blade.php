@@ -32,6 +32,7 @@
                     <div class="header__right__auth">
                         @if (auth()->check())
                         <a href="{{ route('dashboard') }}">Akun Saya</a>
+                        <a href="#" class="logout-link">Logout</a>
                         @else
                             <a href="{{ route('login') }}">Login</a>
                             <a href="{{ route('register') }}">Register</a>

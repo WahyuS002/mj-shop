@@ -41,9 +41,9 @@
                             <div class="section-title">
                                 <h4>Profile</h4>
                             </div>
-                            <a href="#" class="blog__feature__item">
+                            <a href="{{ route('profile.index') }}" class="blog__feature__item">
                                 <div class="blog__feature__item__pic">
-                                    <img src="{{ getUserProfilePicture() }}" alt="{{ auth()->user()->name }}">
+                                    <img src="{{ getUserProfilePicture() }}" alt="{{ auth()->user()->name }}" class="img-fluid" style="width: 90px; height: 90px;">
                                 </div>
                                 <div class="blog__feature__item__text">
                                     <h6>{{ auth()->user()->name }}</h6>
@@ -52,7 +52,7 @@
                             </a>
 
                             <ul>
-                                <li><a href="">Edit Profil</a></li>
+                                <li><a href="{{ route('profile.edit') }}">Edit Profil</a></li>
                                 <li><a href="{{ route('profile.address.index') }}">Alamat Pengiriman</a></li>
                             </ul>
                         </div>
