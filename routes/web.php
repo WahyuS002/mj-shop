@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
@@ -88,6 +89,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' 
 
     Route::get('/orders/status/{status}', [AdminOrderController::class, 'status'])->name('orders.status');
     Route::resource('orders', AdminOrderController::class)->except(['create', 'edit']);
+
+    Route::resource('payments', AdminPaymentController::class)->only(['index', 'show', 'update']);
 });
 
 require __DIR__ . '/auth.php';

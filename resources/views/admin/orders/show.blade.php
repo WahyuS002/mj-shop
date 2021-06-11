@@ -141,6 +141,17 @@
                     @if ($order->status_id == getConstants()::ORDER_STATUS_CANCELLED)
                         <div class="alert alert-info">Order dibatalkan</div>
                     @endif
+
+                    @if ($order->status_id == getConstants()::ORDER_STATUS_WAITING_FOR_CONFIRMATION)
+                        <div class="alert alert-info">
+                            Pembeli sudah mengirim konfirmasi pembayaran. Silahkan periksa pembayaran untuk melanjutkan.
+                        </div>
+
+                        <div class="text-center">
+                            <a href="{{ route('admin.payments.show', $order->payment->id) }}" class="btn btn-info">Lihat
+                                Pembayaran</a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-sm-12 layout-spacing">

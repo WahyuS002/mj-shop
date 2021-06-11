@@ -114,7 +114,9 @@
             </li>
 
             <li class="menu {{ __active('OrderController', 'status', 'unpaid') }}">
-                <a href="{{ route('admin.orders.status', 'unpaid') }}" aria-expanded="{{ __displayAria('OrderController', 'status', 'unpaid') }}" class="dropdown-toggle">
+                <a href="{{ route('admin.orders.status', 'unpaid') }}"
+                    aria-expanded="{{ __displayAria('OrderController', 'status', 'unpaid') }}"
+                    class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -128,7 +130,9 @@
             </li>
 
             <li class="menu {{ __active('OrderController', 'status', 'on-process') }}">
-                <a href="{{ route('admin.orders.status', 'on-process') }}" aria-expanded="{{ __displayAria('OrderController', 'status', 'on-process') }}" class="dropdown-toggle">
+                <a href="{{ route('admin.orders.status', 'on-process') }}"
+                    aria-expanded="{{ __displayAria('OrderController', 'status', 'on-process') }}"
+                    class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -146,7 +150,9 @@
             </li>
 
             <li class="menu {{ __active('OrderController', 'status', 'on-delivery') }}">
-                <a href="{{ route('admin.orders.status', 'on-delivery') }}" aria-expanded="{{ __displayAria('OrderController', 'status', 'on-delivery') }}" class="dropdown-toggle">
+                <a href="{{ route('admin.orders.status', 'on-delivery') }}"
+                    aria-expanded="{{ __displayAria('OrderController', 'status', 'on-delivery') }}"
+                    class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -162,7 +168,9 @@
             </li>
 
             <li class="menu {{ __active('OrderController', 'status', 'finished') }}">
-                <a href="{{ route('admin.orders.status', 'finished') }}" aria-expanded="{{ __displayAria('OrderController', 'status', 'finished') }}" class="dropdown-toggle">
+                <a href="{{ route('admin.orders.status', 'finished') }}"
+                    aria-expanded="{{ __displayAria('OrderController', 'status', 'finished') }}"
+                    class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -177,7 +185,9 @@
             </li>
 
             <li class="menu {{ __active('OrderController', 'status', 'cancelled') }}">
-                <a href="{{ route('admin.orders.status', 'cancelled') }}" aria-expanded="{{ __displayAria('OrderController', 'status', 'cancelled') }}" class="dropdown-toggle">
+                <a href="{{ route('admin.orders.status', 'cancelled') }}"
+                    aria-expanded="{{ __displayAria('OrderController', 'status', 'cancelled') }}"
+                    class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -187,6 +197,29 @@
                             <line x1="9" y1="9" x2="15" y2="15"></line>
                         </svg>
                         <span>Dibatalkan</span>
+                    </div>
+                </a>
+            </li>
+
+            <li class="menu menu-heading">
+                <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="feather feather-circle">
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg><span>PEMBAYARAN</span></div>
+            </li>
+
+            <li class="menu {{ __active('PaymentController') }}">
+                <a href="{{ route('admin.payments.index') }}"
+                    aria-expanded="{{ __displayAria('PaymentController') }}" class="dropdown-toggle">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-dollar-sign">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        <span>Kelola Pembayaran</span>
                     </div>
                 </a>
             </li>

@@ -31,8 +31,12 @@
                 <div class="header__right">
                     <div class="header__right__auth">
                         @if (auth()->check())
-                        <a href="{{ route('dashboard') }}">Akun Saya</a>
-                        <a href="#" class="logout-link">Logout</a>
+                            @if (auth()->user()->role == 'admin')
+                                <a href="{{ route('admin.index') }}">Dasbor</a>
+                            @else
+                                <a href="{{ route('dashboard') }}">Akun Saya</a>
+                            @endif
+                            <a href="#" class="logout-link">Logout</a>
                         @else
                             <a href="{{ route('login') }}">Login</a>
                             <a href="{{ route('register') }}">Register</a>
