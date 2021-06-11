@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
         Route::get('/{order}', [OrderController::class, 'show'])->name('show');
         Route::get('/show/{status}', [OrderController::class, 'status'])->name('status');
         Route::put('/cancel/{order}', [OrderController::class, 'cancelOrder'])->name('cancel');
+        Route::put('/confirm-received/{order}', [OrderController::class, 'confirmOrderReceived'])->name('receive');
     });
 
     Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');

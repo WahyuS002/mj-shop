@@ -80,10 +80,6 @@
                                 <td>Catatan</td>
                                 <td>{{ $order->notes }}</td>
                             </tr>
-                            <tr>
-                                <td>Invoice</td>
-                                <td><a href="">Cetak Invoice {{ $order->number }}</a></td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -121,11 +117,32 @@
                     </div>
                 </div>
 
-                @if ($order->status_id == getConstants()::ORDER_STATUS_ON_PROCESS || $order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY || $order->status_id == getConstants()::ORDER_STATUS_FINISHED)
+                @if ($order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY)
                     <div class="widget-content widget-content-area mt-3">
-                        <h5 class="display-5">Pembayaran</h5>
+                        <h5 class="display-5">Data Pengiriman</h5>
                         <div class="table-responsive">
                             <table class="table table-hover table-striped table-condensed">
+                                <tr>
+                                    <td>Kurir</td>
+                                    <td>{{ $order->shipping->courier->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>No. Resi</td>
+                                    <td>{{ $order->shipping->resi_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Keterangan</td>
+                                    <td>{{ $order->shipping->notes }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Foto</td>
+                                    <td>
+                                        @isset($order->shipping->media[0])
+                                            <a href="{{ $order->shipping->media[0]->getFullUrl() }}" target="_blank">Lihat
+                                                foto</a>
+                                        @endisset
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -150,6 +167,83 @@
                         <div class="text-center">
                             <a href="{{ route('admin.payments.show', $order->payment->id) }}" class="btn btn-info">Lihat
                                 Pembayaran</a>
+                        </div>
+                    @endif
+
+                    @if ($order->status_id == getConstants()::ORDER_STATUS_ON_PROCESS)
+                        <div class="alert alert-info">
+                            Silahkan lakukan pengiriman melalui kurir yang dipilih pembeli, kemudian inputkan nomor resinya.
+                        </div>
+
+                        <div class="mt-2">
+                            <form action="{{ route('admin.orders.update', $order->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="action" value="insert-resi-number">
+
+                                <div class="form-group">
+                                    <label for="courier">Kurir Pengiriman:</label>
+                                    <select name="courier_id" id="courier"
+                                        class="form-control @error('courier') is-invalid @enderror">
+                                        @foreach ($shippingCouriers as $courier)
+                                            <option value="{{ $courier->id }}">{{ $courier->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="number">No. Resi</label>
+                                    <input type="text" name="resi_number" value="{{ old('resi_number') }}" id="number"
+                                        class="form-control @error('resi_number') is-invalid @enderror" required="required">
+
+                                    @error('resi_number')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="picture">Foto bukti resi:</label>
+                                    <input type="file" name="picture" id="picture"
+                                        class="form-control @error('picture') is-invalid @enderror" required="required">
+
+                                    @error('picture')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="notes">Catatan:</label>
+                                    <textarea name="notes" id="notes"
+                                        class="form-control @error('notes') is-invalid @enderror">{{ old('notes') }}</textarea>
+
+                                    @error('notes')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <input type="submit" value="Input Resi" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+                    @endif
+
+                    @if ($order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY)
+                        <div class="alert alert-info">
+                            Order sedang dalam pengiriman dan menunggu pembeli mengkonfirmasi penerimaan.
+                        </div>
+                    @endif
+
+                    @if ($order->status_id == getConstants()::ORDER_STATUS_FINISHED)
+                        <div class="alert alert-info">
+                            Order telah selesai.
                         </div>
                     @endif
                 </div>
@@ -210,6 +304,25 @@
                         </table>
                     </div>
                 </div>
+
+                @if ($order->status_id == getConstants()::ORDER_STATUS_ON_PROCESS || $order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY || $order->status_id == getConstants()::ORDER_STATUS_FINISHED)
+                    <div class="widget-content widget-content-area mt-3">
+                        <h5 class="display-5">Pembayaran</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-condensed">
+                                <tr>
+                                    <td>Metode Pembayaran</td>
+                                    <td>{{ $order->payment->method->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pembayaran</td>
+                                    <td><a href="{{ route('admin.payments.show', $order->payment->id) }}"
+                                            target="_blank">Lihat Pembayaran</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                @endif
             </div>
 
         </div>

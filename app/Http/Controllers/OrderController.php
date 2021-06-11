@@ -100,4 +100,18 @@ class OrderController extends Controller
             ->back()
             ->withSuccess('Berhasil membatalkan order');
     }
+
+    public function confirmOrderReceived(Order $order)
+    {
+        if ($order->user_id != auth()->user()->id) {
+            abort(404);
+        }
+
+        $order->status_id = Constants::ORDER_STATUS_FINISHED;
+        $order->save();
+
+        return redirect()
+            ->back()
+            ->withSuccess('Berhasil mengkonfirmasi order diterima');
+    }
 }

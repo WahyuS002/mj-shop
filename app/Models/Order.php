@@ -44,4 +44,9 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    public function shipping()
+    {
+        return $this->hasOne(Order_shipping::class);
+    }
 }

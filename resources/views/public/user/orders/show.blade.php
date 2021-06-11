@@ -205,12 +205,55 @@
                                     </li>
                                 @endif
                                 @if ($order->status_id == getConstants()::ORDER_STATUS_WAITING_FOR_CONFIRMATION)
-                                <li>
-                                    <p>Order ini sudah dibayar, tetapi masih menunggu konfirmasi admin.</p>
-                                    <div class="cart__btn">
-                                        <a href="{{ route('payments.show', $order->payment->id) }}">Lihat Pembayaran</a>
-                                    </div>
-                                </li>
+                                    <li>
+                                        <p>Order ini sudah dibayar, tetapi masih menunggu konfirmasi admin.</p>
+                                        <div class="cart__btn">
+                                            <a href="{{ route('payments.show', $order->payment->id) }}">Lihat
+                                                Pembayaran</a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if ($order->status_id == getConstants()::ORDER_STATUS_ON_PROCESS)
+                                    <li>
+                                        <p>Pembayaran sudah diterima, admin sedang memproses order untuk segera dikirimkan.
+                                        </p>
+                                    </li>
+                                @endif
+                                @if ($order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY)
+                                    <li>
+                                        <div class="cart__btn">
+                                            <a href="#" class="btn-confirm-order">Konfirmasi Order Diterima</a>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-condensed">
+                                                <tr>
+                                                    <td>Kurir</td>
+                                                    <td>{{ $order->shipping->courier->name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>No. Resi</td>
+                                                    <td>{{ $order->shipping->resi_number }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Keterangan</td>
+                                                    <td>{{ $order->shipping->notes }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Foto</td>
+                                                    <td>
+                                                        @isset($order->shipping->media[0])
+                                                            <a href="{{ $order->shipping->media[0]->getFullUrl() }}"
+                                                                target="_blank">Lihat foto</a>
+                                                        @endisset
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if ($order->status_id == getConstants()::ORDER_STATUS_FINISHED)
+                                    <li>Order sudah selesai. Terima kasih!</li>
                                 @endif
                             </ul>
                         </div>
@@ -223,10 +266,17 @@
 
 @section('custom_html')
     @if ($order->status_id == getConstants()::ORDER_STATUS_UNPAID)
-        <form action="{{ route('orders.cancel', $order->id) }}" method="post" id="cancel-form">
+        <form action="{{ route('orders.cancel', $order->id) }}" method="POST" id="cancel-form">
             @csrf
             @method('PUT')
             <input type="hidden" name="reason" value="" id="cancel-reason">
+        </form>
+    @endif
+
+    @if ($order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY)
+        <form action="{{ route('orders.receive', $order->id) }}" method="POST" id="receive-form">
+            @csrf
+            @method('PUT')
         </form>
     @endif
 @endsection
@@ -256,6 +306,31 @@
 
                         cancelReason.value = reason;
                         cancelForm.submit();
+                    }
+                })
+            })
+
+        </script>
+    @endif
+
+    @if ($order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY)
+        <script>
+            const confirmBtn = document.querySelector('.btn-confirm-order');
+            const receiveForm = document.querySelector('#receive-form');
+
+            confirmBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                swal({
+                    title: 'Konfirmasi Order Diterima?',
+                    text: "Anda yakin mengkonfirmasi order diterima?",
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'Konfirmasi',
+                    padding: '2em'
+                }).then(function(result) {
+                    if (result.value) {
+                        receiveForm.submit();
                     }
                 })
             })

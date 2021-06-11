@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Constants;
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\Order_shipping;
+use App\Models\Shipping_courier;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -40,7 +42,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('admin.orders.show', compact('order'));
+        $shippingCouriers = Shipping_courier::all();
+
+        return view('admin.orders.show', compact('order', 'shippingCouriers'));
     }
 
     /**
@@ -69,6 +73,33 @@ class OrderController extends Controller
                 return redirect()
                     ->back()
                     ->withSuccess('Berhasil membatalkan order');
+                break;
+            case 'insert-resi-number':
+                $request->validate([
+                    'courier_id' => 'required|numeric',
+                    'resi_number' => 'required|min:4',
+                    'notes' => 'nullable|min:4',
+                    'picture' => 'required|max:5096|mimes:jpg,jpeg,png'
+                ]);
+
+                $order->status_id = Constants::ORDER_STATUS_ON_DELIVERY;
+                $order->save();
+
+                $shipping = new Order_shipping();
+                $shipping->order_id = $order->id;
+                $shipping->courier_id = $request->courier_id;
+                $shipping->resi_number = $request->resi_number;
+                $shipping->notes = $request->notes;
+                $shipping->save();
+
+                if ($request->has('picture') && $request->file('picture')->isValid()) {
+                    $shipping->addMediaFromRequest('picture')
+                        ->toMediaCollection('resi_number_pictures');
+                }
+
+                return redirect()
+                    ->back()
+                    ->withSuccess('Berhasil menginput data nomor resi');
                 break;
         }
     }
