@@ -257,13 +257,13 @@ if (!function_exists('__active')) {
      */
     function __active($controller = '', $action = '', $param = '')
     {
-        $phpSelf = $_SERVER['PHP_SELF'];
+        $requestUri = $_SERVER['REQUEST_URI'];
 
         if ($controller === '' && $action === '') {
             return ' active';
         } else if ($param !== '') {
             if (isController($controller) && isAction($action)) {
-                if (strpos($phpSelf, $param) !== FALSE) {
+                if (strpos($requestUri, $param) !== FALSE) {
                     return ' active';
                 }
             }
@@ -308,14 +308,14 @@ if (!function_exists('__displayAria')) {
      */
     function __displayAria($controller = '', $action = '', $param = '')
     {
-        $phpSelf = $_SERVER['PHP_SELF'];
+        $requestUri = $_SERVER['REQUEST_URI'];
 
         if ($controller === '' && $action === '') {
             return 'true';
         } else if ($param !== '') {
             if (isController($controller) && isAction($action)) {
-                if (strpos($phpSelf, $param) !== FALSE) {
-                    return true;
+                if (strpos($requestUri, $param) !== FALSE) {
+                    return 'true';
                 }
             }
         } else if (is_array($controller) && count($controller)) {

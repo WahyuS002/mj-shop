@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
@@ -65,7 +66,6 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
 
         Route::get('/success', [PaymentController::class, 'success'])->name('success');
     });
-
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {
@@ -83,6 +83,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' 
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
     });
     Route::resource('products', ProductController::class);
+
+    Route::get('/orders/status/{status}', [AdminOrderController::class, 'status'])->name('orders.status');
+    Route::resource('orders', AdminOrderController::class)->except(['create', 'edit']);
 });
 
 require __DIR__ . '/auth.php';

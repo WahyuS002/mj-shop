@@ -29,4 +29,9 @@ class Order extends Model
     {
         return $this->hasOne(Order_shipping_courier::class);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }
