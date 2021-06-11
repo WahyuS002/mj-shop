@@ -34,4 +34,9 @@ class Order extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    public function cancellations()
+    {
+        return $this->hasOne(Order_cancellation::class);
+    }
 }

@@ -156,6 +156,21 @@
                                                 {{ number_format(($order->total_price + $order->shipment_cost) / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
                                         </div>
                                     </li>
+                                    <li>
+                                        <div class="cart__btn">
+                                            <a href="#" class="btn-cancel-order">Batalkan Order</a>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if ($order->status_id == getConstants()::ORDER_STATUS_CANCELLED)
+                                    <li>
+                                        Order dibatalkan oleh
+                                        {{ $order->cancellations->user_id == auth()->user()->id ? 'saya' : 'admin' }}
+                                        pada {{ date('l, d M Y H:i', strtotime($order->cancellations->created_at)) }}
+                                        <br>
+                                        Alasan:
+                                        {{ $order->cancellations->reason }}
+                                    </li>
                                 @endif
                             </ul>
                         </div>
@@ -165,3 +180,46 @@
         </div>
     </section>
 @endsection
+
+@section('custom_html')
+    @if ($order->status_id == getConstants()::ORDER_STATUS_UNPAID)
+        <form action="{{ route('orders.cancel', $order->id) }}" method="post" id="cancel-form">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="reason" value="" id="cancel-reason">
+        </form>
+    @endif
+@endsection
+
+@push('custom_js')
+    @if ($order->status_id == getConstants()::ORDER_STATUS_UNPAID)
+        <script>
+            let btnCancelOrder = document.querySelector('.btn-cancel-order');
+            btnCancelOrder.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                swal({
+                    title: 'Alasan Pembatalan Order',
+                    input: 'textarea',
+                    showCancelButton: true
+                }).then(function(text) {
+                    const reason = text.value;
+                    if (reason == '') {
+                        swal(
+                            'Upps...!',
+                            'Pesan pembatalan harus diisi',
+                            'error'
+                        )
+                    } else {
+                        const cancelForm = document.querySelector('#cancel-form');
+                        const cancelReason = cancelForm.querySelector('#cancel-reason');
+
+                        cancelReason.value = reason;
+                        cancelForm.submit();
+                    }
+                })
+            })
+
+        </script>
+    @endif
+@endpush

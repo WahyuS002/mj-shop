@@ -52,7 +52,25 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $action = $request->action;
+
+        switch ($action) {
+            case 'cancel-order':
+                $order->status_id = Constants::ORDER_STATUS_CANCELLED;
+                $order->save();
+
+                $cancellations = [
+                    'user_id' => auth()->user()->id,
+                    'reason' => $request->reason
+                ];
+
+                $order->cancellations()->create($cancellations);
+
+                return redirect()
+                    ->back()
+                    ->withSuccess('Berhasil membatalkan order');
+                break;
+        }
     }
 
     /**

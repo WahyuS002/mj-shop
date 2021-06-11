@@ -36,7 +36,7 @@ class OrderController extends Controller
     public function status($status = '')
     {
         $statuses = ['unpaid', 'on-process', 'on-delivery', 'finish', 'cancelled'];
-        if ( ! in_array($status, $statuses)) {
+        if (!in_array($status, $statuses)) {
             abort(404);
         }
         $statusText = '';
@@ -75,5 +75,26 @@ class OrderController extends Controller
         $orders = Order::where(['user_id' => auth()->user()->id, 'status_id' => $status])->get();
 
         return view('public.user.orders.status', compact('countOrders', 'orders', 'statusText'));
+    }
+
+    public function cancelOrder(Request $request, Order $order)
+    {
+        if ($order->user_id != auth()->user()->id) {
+            abort(404);
+        }
+
+        $order->status_id = Constants::ORDER_STATUS_CANCELLED;
+        $order->save();
+
+        $cancellations = [
+            'user_id' => auth()->user()->id,
+            'reason' => $request->reason
+        ];
+
+        $order->cancellations()->create($cancellations);
+
+        return redirect()
+            ->back()
+            ->withSuccess('Berhasil membatalkan order');
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Order #'. $order->number)
+@section('title', 'Order #' . $order->number)
 
 @section('custom_head')
     <link href="{{ asset('plugins/animate/animate.css') }}" rel="stylesheet">
@@ -39,6 +39,27 @@
                                 <td>Status</td>
                                 <td>{{ $order->status->name }}</td>
                             </tr>
+                            @if ($order->status_id == getConstants()::ORDER_STATUS_CANCELLED)
+                                <tr>
+                                    <td>Dibatalkan Oleh</td>
+                                    <td>
+                                        {{ $order->cancellations->user->name }}
+                                        @if ($order->cancellations->user_id == auth()->user()->id)
+                                            (Penjual)
+                                        @else
+                                            (Pembeli)
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Alasan Pembatalan</td>
+                                    <td>{{ $order->cancellations->reason }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Dibatalkan Pada</td>
+                                    <td>{{ date('l, d M Y H:i', strtotime($order->cancellations->created_at)) }}</td>
+                                </tr>
+                            @endif
                             <tr>
                                 <td>Jumlah Item</td>
                                 <td>{{ $order->total_items }}</td>
@@ -91,7 +112,8 @@
                             @endforeach
                             <tfoot>
                                 <tr>
-                                    <td colspan="4" class="text-right" style="padding-right: 3em">{{ $order->total_items }}</td>
+                                    <td colspan="4" class="text-right" style="padding-right: 3em">
+                                        {{ $order->total_items }}</td>
                                     <td>Rp {{ displayPrice($order->total_price) }}</td>
                                 </tr>
                             </tfoot>
@@ -103,9 +125,11 @@
                     <h5 class="display-5 mb-3">Tindakan</h5>
 
                     @if ($order->status_id == getConstants()::ORDER_STATUS_UNPAID)
-                    <div class="alert alert-info">
-                        Order ini belum dibayar, tidak ada tindakan untuk dilakukan.
-                    </div>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#cancelModal">Batalkan</a>
+                    @endif
+
+                    @if ($order->status_id == getConstants()::ORDER_STATUS_CANCELLED)
+                    <div class="alert alert-info">Order dibatalkan</div>
                     @endif
                 </div>
             </div>
@@ -168,6 +192,65 @@
             </div>
 
         </div>
-
     </div>
 @endsection
+
+@section('custom_html')
+    <div class="modal fade animated zoomInUp custo-zoomInUp" id="cancelModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form action="{{ route('admin.orders.update', $order->id) }}" method="post">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="action" value="cancel-order">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Batalkan Order</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="reason">Alasan Pembatalan</label>
+                                <textarea name="reason" id="reason" class="form-control"
+                                    placeholder="Jelaskan mengapa order ini dibatalkan"
+                                    required>{{ old('reason') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-cancel" data-dismiss="modal">
+                            <i class="flaticon-cancel-12"></i> Kembali
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-submit">Batalkan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+@push('custom_js')
+    <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('plugins/sweetalerts/custom-sweetalert.js') }}"></script>
+
+    @if (session()->has('success'))
+        <script>
+            swal({
+                title: 'Berhasil!',
+                text: '{{ session()->get('success') }}',
+                type: 'success',
+                padding: '2em'
+            });
+
+        </script>
+    @endif
+@endpush
