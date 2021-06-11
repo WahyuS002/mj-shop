@@ -31,6 +31,10 @@
             color: #198754 !important;
         }
 
+        .text-danger {
+            color: #dc3545 !important;
+        }
+
         .text-center {
             text-align: center
         }

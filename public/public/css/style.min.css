@@ -2599,7 +2599,7 @@ ol {
 	color: #ca1515;
 }
 
-.checkout__form .checkout__form__input input {
+.checkout__form .checkout__form__input input, .checkout__form .checkout__form__input select {
 	height: 50px;
 	width: 100%;
 	border: 1px solid #e1e1e1;
@@ -2608,6 +2608,13 @@ ol {
 	font-size: 14px;
 	padding-left: 20px;
 	color: #666666;
+}
+
+.checkout__form .checkout__form__input select option {
+    margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .checkout__form .checkout__form__input input::-webkit-input-placeholder {

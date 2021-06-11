@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(DefaultSettingSeeder::class);
         // $this->call(OrderStatusSeeder::class);
         // $this->call(PaymentMethodSeeder::class);
+        // $this->call(ProvincesTableSeeder::class);
+        // $this->call(CitiesTableSeeder::class);
+        // $this->call(ShippingCourierSeeder::class);
     }
 }

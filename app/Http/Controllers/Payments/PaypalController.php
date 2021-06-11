@@ -68,11 +68,11 @@ class PaypalController extends Controller
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($item_list)
-            ->setDescription('Pembayaran untuk order #'. $order->number .' di MJ Shop');
+            ->setDescription('Pembayaran untuk order #' . $order->number . ' di MJ Shop');
 
         $redirect_urls = new RedirectUrls();
         $redirect_urls->setReturnUrl(route('payments.paypal.callback'))
-            ->setCancelUrl(route('payments.paypal.callback'));
+            ->setCancelUrl(route('orders.show', $order->id));
 
         $payment = new Payment();
         $payment->setIntent('Sale')
@@ -93,8 +93,8 @@ class PaypalController extends Controller
             }
         }
 
-        foreach($payment->getLinks() as $link) {
-            if($link->getRel() == 'approval_url') {
+        foreach ($payment->getLinks() as $link) {
+            if ($link->getRel() == 'approval_url') {
                 $redirect_url = $link->getHref();
                 break;
             }
@@ -103,7 +103,7 @@ class PaypalController extends Controller
         session(['paypal_payment_id' => $payment->getId()]);
         session(['order' => $order]);
 
-        if(isset($redirect_url)) {
+        if (isset($redirect_url)) {
             return redirect()
                 ->to($redirect_url);
         }

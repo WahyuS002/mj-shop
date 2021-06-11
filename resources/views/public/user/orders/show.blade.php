@@ -30,30 +30,102 @@
                             </div>
                         </div>
 
-                        <div class="blog__details__desc text-center">
-                            <div class="table-responsive">
-                                <table class="table table-bordered striped">
-                                    <thead class="thead-dark">
+                        <div class="blog__details__desc">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="items-tab" data-toggle="tab" href="#items" role="tab"
+                                        aria-controls="items" aria-selected="true">Items</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="receiver-tab" data-toggle="tab" href="#receiver" role="tab"
+                                        aria-controls="receiver" aria-selected="false">Penerima</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="courier-tab" data-toggle="tab" href="#courier" role="tab"
+                                        aria-controls="courier" aria-selected="false">Kurir</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="items" role="tabpanel"
+                                    aria-labelledby="items-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered striped">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Produk</th>
+                                                    <th scope="col">Harga</th>
+                                                    <th scope="col">Jumlah</th>
+                                                    <th scope="col">Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($order->items as $item)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $item->product->name }}</td>
+                                                        <td>Rp {{ displayPrice($item->price) }}</td>
+                                                        <td>{{ $item->qty }}</td>
+                                                        <td>Rp {{ displayPrice($item->price * $item->qty) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="receiver" role="tabpanel" aria-labelledby="receiver-tab">
+                                    <table class="table table-hover table-striped table-condensed">
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Produk</th>
-                                            <th scope="col">Harga</th>
-                                            <th scope="col">Jumlah</th>
-                                            <th scope="col">Subtotal</th>
+                                            <td>Penerima</td>
+                                            <td><strong>{{ $order->address->full_name }}</strong></td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($order->items as $item)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $item->product->name }}</td>
-                                                <td>Rp {{ displayPrice($item->price) }}</td>
-                                                <td>{{ $item->qty }}</td>
-                                                <td>Rp {{ displayPrice($item->price * $item->qty) }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        <tr>
+                                            <td>No. HP</td>
+                                            <td><strong>{{ $order->address->phone_number }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td><strong>{{ $order->address->address }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Keterangan</td>
+                                            <td><strong>{{ $order->address->notes }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Provinsi</td>
+                                            <td><strong>{{ $order->address->city->province->name }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kota / Kabupaten</td>
+                                            <td><strong>{{ $order->address->city->name }}</strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="courier" role="tabpanel" aria-labelledby="courier-tab">
+                                    <table class="table table-hover table-striped table-condensed">
+                                        <tr>
+                                            <td>Kurir</td>
+                                            <td><strong>{{ $order->courier->courier->name }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Layanan</td>
+                                            <td><strong>{{ $order->courier->service }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Biaya</td>
+                                            <td><strong>Rp {{ displayPrice($order->courier->cost) }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dikirim ke</td>
+                                            <td><strong>{{ $order->courier->province->name }} /
+                                                    {{ $order->courier->city->name }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Estimasi Pengiriman</td>
+                                            <td><strong>{{ $order->courier->estimation_day }} hari</strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,6 +133,16 @@
 
                 <div class="col-lg-4 col-md-4">
                     <div class="blog__sidebar">
+                        <div class="blog__sidebar__item">
+                            <div class="section-title">
+                                <h4>Ringkasan</h4>
+                            </div>
+                            <ul>
+                                <li>Subtotal: Rp {{ displayPrice($order->total_price) }}</li>
+                                <li>Biaya Pengiriman: Rp {{ displayPrice($order->courier->cost) }}</li>
+                                <li>Total: <u>Rp {{ displayPrice($order->shipment_cost + $order->total_price) }}</u></li>
+                            </ul>
+                        </div>
                         <div class="blog__sidebar__item">
                             <div class="section-title">
                                 <h4>Tindakan</h4>
@@ -71,9 +153,8 @@
                                         <div class="cart__btn">
                                             <a href="{{ route('payments.paypal.create', $order->id) }}">Bayar dengan
                                                 PayPal ($
-                                                {{ number_format($order->total_price / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
+                                                {{ number_format(($order->total_price + $order->shipment_cost) / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
                                         </div>
-
                                     </li>
                                 @endif
                             </ul>
