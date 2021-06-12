@@ -3,7 +3,7 @@
         <ul class="navbar-nav theme-brand flex-row  text-center">
             <li class="nav-item theme-logo">
                 <a href="{{ route('admin.index') }}">
-                    <img src="{{ getSiteLogo(true) }}" class="navbar-logo" alt="{{ getSiteName() }}">
+                    <img src="{{ getSiteIcon() }}" class="navbar-logo" alt="{{ getSiteName() }}">
                 </a>
             </li>
             <li class="nav-item theme-text">

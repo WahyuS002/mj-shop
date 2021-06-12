@@ -180,12 +180,17 @@
                                     <li>
                                         <div class="cart__btn">
                                             <a href="{{ route('payments.paypal.create', $order->id) }}">Bayar dengan
-                                                PayPal ($
-                                                {{ number_format(($order->total_price + $order->shipment_cost) / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
-
-                                            <a href="{{ route('payments.create') }}" class="mt-2">Konfirmasi
-                                                Pembayaran</a>
+                                                PayPal
+                                                (${{ number_format(($order->total_price + $order->shipment_cost) / config('paypal.idr_to_usd_rate'), 2, ',', '.') }})</a>
+                                            <a href="#" class="pay-with-midtrans mt-2">BAYAR SEKARANG</a>
+                                            {{-- <a href="{{ route('payments.create') }}" class="mt-2">Konfirmasi
+                                                Pembayaran</a> --}}
                                         </div>
+                                    </li>
+
+                                    <li>
+                                        <div id="result-json"></div>
+                                       
                                     </li>
 
                                     <li>
@@ -311,6 +316,37 @@
             })
 
         </script>
+
+        <script src="https://app.midtrans.com/snap/snap.js"
+            data-client-key="{{ config('midtrans.production.client_key') }}"></script>
+        <script>
+            const payWithMidtrans = document.querySelector('.pay-with-midtrans');
+            payWithMidtrans.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                snap.pay('{{ $snapToken }}', {
+                    // Optional
+                    language: 'id',
+                    onSuccess: function(result) {
+                        /* You may add your own js here, this is just example */
+                        document.getElementById('result-json').innerHTML +=
+                            JSON.stringify(result, null, 2);
+                        },
+                    // Optional
+                    onPending: function(result) {
+                        /* You may add your own js here, this is just example */
+                        document.getElementById('result-json').innerHTML +=
+                            JSON.stringify(result, null, 2);
+                        },
+                    // Optional
+                    onError: function(result) {
+                        /* You may add your own js here, this is just example */
+                        document.getElementById('result-json').innerHTML +=
+                            JSON.stringify(result, null, 2);
+                        }
+                    });
+            })
+</script>
     @endif
 
     @if ($order->status_id == getConstants()::ORDER_STATUS_ON_DELIVERY)

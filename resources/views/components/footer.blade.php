@@ -6,13 +6,12 @@
             <div class="footer__logo">
               <a href="index-2.html"><img src="{{ asset('public/img/logo.png') }}" alt=""></a>
             </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-              cilisis.</p>
+            <p>{{ getSiteDescription() }}</p>
             <div class="footer__payment">
               <a href="#"><img src="{{ asset('public/img/payment/payment-1.png') }}" alt=""></a>
               <a href="#"><img src="{{ asset('public/img/payment/payment-2.png') }}" alt=""></a>
               <a href="#"><img src="{{ asset('public/img/payment/payment-3.png') }}" alt=""></a>
-              <a href="#"><img src="{{ asset('public/img/payment/xpayment-4.png') }}" alt=""></a>
+              <a href="#"><img src="{{ asset('public/img/payment/payment-4.png') }}" alt=""></a>
               <a href="#"><img src="{{ asset('public/img/payment/payment-5.png') }}" alt=""></a>
             </div>
           </div>

@@ -13,6 +13,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController as ControllersDashboardController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Payments\MidtransController;
 use App\Http\Controllers\Payments\PaymentController;
 use App\Http\Controllers\Payments\PaypalController;
 use App\Http\Controllers\ProductController as ControllersProductController;
@@ -70,6 +71,8 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
 
         Route::get('/pay/success', [PaymentController::class, 'success'])->name('success');
     });
+
+    Route::get('/midtrans', [MidtransController::class, 'getSnapToken']);
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin'], 'as' => 'admin.'], function () {

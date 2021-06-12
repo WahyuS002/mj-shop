@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Constants;
 use App\Models\Bank;
 use App\Models\Order;
+use Midtrans\Snap;
+use Midtrans\Config;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -31,9 +33,57 @@ class OrderController extends Controller
             abort(404);
         }
 
+        $snapToken = '';
+        if ($order->status_id == Constants::ORDER_STATUS_UNPAID) {
+            Config::$serverKey = config('midtrans.production.server_key');
+            Config::$isProduction = true;
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            $items = [];
+            $n = 1;
+            $items[0] = [
+                'id' => 'ONGKIR',
+                'name' => 'Biaya Pengiriman',
+                'price' => $order->shipment_cost,
+                'quantity' => 1
+            ];
+            foreach ($order->items as $item) {
+                $items[$n] = [
+                    'id' => $item->id,
+                    'name' => $item->product->name,
+                    'price' => $item->price,
+                    'quantity' => $item->qty,
+                    'brand' => $item->product->brand->name
+                ];
+
+                $n++;
+            }
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => '#'. $order->number,
+                    'gross_amount' => ($order->total_price + $order->shipment_cost)
+                ],
+                'item_details' => $items,
+                'customer_details' => [
+                    'first_name' => $order->user->name,
+                    'email' => $order->user->email,
+                    'shipping_address' => [
+                        'first_name' => $order->address->full_name,
+                        'address' => $order->address->address,
+                        'city' => $order->address->city->name,
+                        'phone' => $order->address->phone_number
+                    ]
+                ]
+            ];
+
+            $snapToken = Snap::getSnapToken($params);
+        }
+
         $banks = Bank::all();
 
-        return view('public.user.orders.show', compact('banks', 'order'));
+        return view('public.user.orders.show', compact('banks', 'order', 'snapToken'));
     }
 
     public function status($status = '')

@@ -1,7 +1,9 @@
 <?php
 
 use App\Constants;
+use App\Models\Category;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -58,14 +60,16 @@ if (!function_exists('getSiteLogo')) {
     {
         $data = Setting::where('key', 'siteLogo')->first();
 
-        if ($showAsIcon === false) {
             if (isset($data->media[0])) {
-                return $data->media[0]->getFullUrl();
-            } else {
-                return asset('assets/img/90x90.jpg');
-            }
+            $logo = $data->media[0]->getFullUrl();
+            Cache::put('siteLogo', $logo, 86400);
+
+            return $logo;
         } else {
-            return getSiteIcon();
+            $logo = asset('assets/img/90x90.jpg');
+            Cache::put('siteLogo', $logo, 86400);
+
+            return $logo;
         }
     }
 }
@@ -112,20 +116,18 @@ if (!function_exists('getSetting')) {
 }
 
 if (!function_exists('getSiteName')) {
-    /**
-     * Mendapatkan nama situs
-     *
-     * Mendapatkan data nama situs dari
-     * tabel `settings`
-     *
-     * @since   1.0.0
-     * @author  mulyosyahidin95
-     *
-     * @return  String  Nama situs
-     */
     function getSiteName()
     {
-        return getSetting('siteName');
+        if (Cache::has('siteName')) {
+            $siteName = Cache::get('siteName');
+
+            return $siteName;
+        }
+
+        $siteName = getSetting('siteName');
+        Cache::put('siteName', $siteName, 86400);
+
+        return $siteName;
     }
 }
 
@@ -423,5 +425,31 @@ if (!function_exists('generatePaymentNumber')) {
         $userId = auth()->user()->id;
 
         return $str . $time . $userId;
+    }
+}
+
+if ( ! function_exists('getCategories'))
+{
+    function getCategories()
+    {
+        $categories = Category::orderBy('name')->get();
+
+        return $categories;
+    }
+}
+
+if ( ! function_exists('getSiteDescription'))
+{
+    function getSiteDescription()
+    {
+        if (Cache::has('description')) {
+            $description = Cache::get('description');
+        }
+        else {
+            $description =  getSetting('siteDescription');
+            Cache::put('description', $description, 86400);
+        }
+
+        return $description;
     }
 }
